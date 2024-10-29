@@ -1264,6 +1264,10 @@ width:fit-content;
   .hat-page{
     width:calc(100%-80%)
   }
+  .product-grid{
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
 }
 
 
