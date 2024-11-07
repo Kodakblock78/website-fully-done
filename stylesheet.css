@@ -847,23 +847,15 @@ html {
 }
 
 
-.container-about-us{
-  height: 550px;
-  border-radius: 50px;
-  display: inline;
-  z-index: -948;
-  position: relative;
-  position: relative;
-  top: 9px;
-  left: 567px;
-  
-  
-
+.container-about-us {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-.container-about-us h2{
-  position: relative;
 
-}
+
 .about- {
 display: flex;
 justify-content: space-between;
@@ -962,8 +954,58 @@ width:fit-content;
 
 
 }
+.about-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+  background-color: #c2c1c173;
+  border-radius: 15px;
+}
+.image-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+.image-box img {
+  width: 80%;
+  max-width: 300px;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom:30px ;
+  
+}
+.WE-ARE-EZES{
+  text-decoration: underline;
+}
+
+.text-box {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content:start;
+  padding: 20px;
+}
 .about-{
   text-decoration: underline;
+}
+.text-box h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.at-ezes{
+  font-size: larger;
+  font-style: italic;
+  font-weight: bold;
+  font: 4rem;
+}
+.text-box p {
+  font-size: 1.6rem;
+  line-height: 2.0rem;
 }
 .main-text .readmore-button:hover{
   background-color: #d8c4c4;
@@ -1182,7 +1224,9 @@ width:fit-content;
 .container-phone-text-image {
   height:50%;
   display: inline-block;
-  max-width: 100%;
+  max-width: 50%;
+  margin-top: 20px;
+  border-radius: 30px;
 }
 .nike{
   margin-left:  330px;
@@ -1242,7 +1286,6 @@ width:fit-content;
     top: 0%;
   }
   .phone-text {
-    display:block;
     margin-top: 160px;
   }
   .phone-text h3 {
@@ -1269,6 +1312,15 @@ width:fit-content;
     grid-template-rows: auto;
   }
 }
+@media (max-width: 990px){
+  .container-about-us{
+    display:none;
+  }
+  .phone-text{
+    display: block;
+  }
+}
+
 
 
 
