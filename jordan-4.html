@@ -8,6 +8,15 @@
     <link rel="icon" type="image/x-icon" href="EZE_S-removebg-preview.png">
 
 </head>
+<section>
+  <div class="icon-cart shopping_cartBTN">
+    <!-- Replacing SVG with an Image -->
+    <img src="shopping_cart.png" alt="Cart Icon" class="cart-icon" />
+    
+    <!-- Cart Count -->
+    <span>0</span>
+  </div>
+</section>
 <body style="background-color: rgb(250, 211, 164);">
     <nav class="homepage-fixed" style=" position: relative;">
         <div class="logo"><h1><a href="index.html">EZE's shoes</a></h1></div>
@@ -23,7 +32,7 @@
             <button type="button" class="return-button"><img src="arrow-1314462_1280.png"></button>
         </a>
     <div class="left-column-product">
-        <img src="jordan-4.webp" alt="">
+        <img src="jordan-4.webp" alt="image of shoe">
       </div>
      
      
@@ -65,83 +74,18 @@
         <!-- Product Pricing -->
         <div class="product-price">
           <span>289&#8364;</span>
-          <a href="#" id="openModalBtn" class="cart-btn">Order now</a>
-             
-          <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <h2>What's ur preffered method of payment</h2>
-           <hr class="division-line">
-          <h2 class="header-order-info">Order Info</h2>
-            <div>
-              <form action="https://api.web3forms.com/submit" method="POST">
-                <input type="hidden" name="access_key" value="cff3978c-f483-4c68-847d-ebe39224fb6f">
-                
-                <div class="container-order-info input-styling">
-                    <div class="input-group">
-                        <label for="fname">First Name:</label>
-                        <input type="text" id="fname" name="jordan4" placeholder="First Name" required>
-                    </div>
-                    <div class="input-group input-styling">
-                        <label for="lname">Last Name:</label>
-                        <input type="text" id="lname" name="lname" placeholder="Last Name" required>
-                    </div>
-                </div>
-                
-            
-                <label for="adres input-styling">Street Name:</label>
-                <input type="text" id="adres" name="adres" placeholder="Street Name" required>
-                
-                <div class="adres-input container-order-info">
-                    <div class="adres-group input-styling">
-                        <label for="city">City:</label>
-                        <input type="text" id="city" name="city" placeholder="City" required>
-                    </div>
-                    <div class="adres-group input-styling">
-                        <label for="postalcode">Postal Code:</label>
-                        <input type="text" id="postalcode" name="postalcode" placeholder="Postal Code" required>
-                    </div>
-                    <div class="adres-group input-styling">
-                        <label for="housenumber">House Number:</label>
-                        <input type="text" id="housenumber" name="housenumber" placeholder="House Number" required>
-                    </div>
-                </div>
-            
-
-                <label for="country">ur preffered payment method</label>
-                <select id="country" name="country" required>
-                    <option value="Tikkie">Tikkie</option>
-                    <option value="Mollie">Mollie</option>
-                    <option value="Paypal">Paypal</option>
-                </select>
-
+          <a id="jordan-4-black" href="#" class="cart-btn">Add to cart</a>
+      <div class="cartTab">
+          <h1>Shopping Cart</h1>
+          <div class="listCart">
               
-                <label for="country">Country:</label>
-                <select id="country" name="country" required>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="Belgium">Belgium</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                </select>
-            
-                <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone" placeholder="Your Phone Number" required>
-            
-                <label for="phone">Diffrent shoe size:</label>
-                <input type="text" id="phone" name="phone" placeholder="e.g. 33" >
+          </div>
+          <div class="btn">
+              <button class="close">CLOSE</button>
+              <button class="checkOut">Check Out</button>
+          </div>
+      </div>
 
-                <div style="display: flex; justify-content: center; margin-top: 3rem;">
-                    <input class="submit-btn" type="submit" value="Submit">
-                </div>
-            </form>
-            
-
-
-          
-          
-            </div>
-        </div>
         <script src="popup1.js"></script>
         </div>
       </div>
