@@ -7,8 +7,6 @@ let products = []; // Unused but kept for potential future usage
 const cartListHTML = document.querySelector('#cart-list');
 const totalPriceHTML = document.querySelector('#total-price');
 
-
-
 // Load cart from localStorage or initialize it
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -78,7 +76,7 @@ document.addEventListener('click', (event) => {
             image: 'adidas campus black.webp',
             quantity: 1,
         };
-    }else if (event.target.id === 'nike-blazer-low') {
+    } else if (event.target.id === 'nike-blazer-low') {
         product = {
             id: 'nike-blazer-low',
             name: 'nike blazer',
@@ -86,7 +84,7 @@ document.addEventListener('click', (event) => {
             image: 'nike-blazer-low.webp',
             quantity: 1,
         };
-    }else if (event.target.id === 'nike-dunks') {
+    } else if (event.target.id === 'nike-dunks') {
         product = {
             id: 'nike-dunks',
             name: 'nike dunks',
@@ -94,7 +92,7 @@ document.addEventListener('click', (event) => {
             image: 'nike-dunk.webp',
             quantity: 1,
         };
-    }else if (event.target.id === 'new-balance') {
+    } else if (event.target.id === 'new-balance') {
         product = {
             id: 'new-balance',
             name: 'new balance 9060',
@@ -102,7 +100,7 @@ document.addEventListener('click', (event) => {
             image: 'new--balanc.webp',
             quantity: 1,
         };
-    }else if (event.target.id === 'air-force-1') {
+    } else if (event.target.id === 'air-force-1') {
         product = {
             id: 'air-force-1',
             name: 'Air force 1',
@@ -110,7 +108,7 @@ document.addEventListener('click', (event) => {
             image: 'af-1.webp',
             quantity: 1,
         };
-    }else if (event.target.id === 'uggs-boots') {
+    } else if (event.target.id === 'uggs-boots') {
         product = {
             id: 'uggs-boots',
             name: 'uggs',
@@ -119,7 +117,6 @@ document.addEventListener('click', (event) => {
             quantity: 1,
         };
     }
-
 
     // If a product was selected
     if (product) {
@@ -175,65 +172,44 @@ const updateCart = () => {
     });
 };
 
-// Redirect to payment-page.html when the checkout button is clicked
-document.querySelector('.checkOut').addEventListener('click', () => {
-    window.location.href = 'payment-page.html'; // Redirect to the payment page
+// PayPal Integration
+document.addEventListener('DOMContentLoaded', () => {
+    const paypalContainer = document.querySelector('#paypal-button-container');
+    if (paypalContainer) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        paypal.Buttons({
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: totalPrice.toFixed(2) },
+                    }]
+                });
+            },
+            onApprove: (data, actions) => {
+                return actions.order.capture().then((details) => {
+                    alert(`Transaction completed by ${details.payer.name.given_name}!`);
+                    localStorage.removeItem('cart');
+                    updateCart();
+                });
+            },
+            onError: (err) => {
+                console.error('PayPal Checkout error', err);
+                alert('An error occurred during the transaction.');
+            }
+        }).render('#paypal-button-container');
+    }
 });
-
-
-
+// Redirect to payment page on checkout
+checkoutButton.addEventListener('click', () => {
+    window.location.href = 'payment-page.html';
+});
 
 
 // Initialize the cart UI on page load
 updateCart();
-const renderCartItems = () => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || []; // Retrieve the cart from localStorage
-    const listContainer = document.getElementById('list1'); // The div where the cart items will be displayed
-    const totalPriceElement = document.getElementById('total-price'); // Total price element
-
-    listContainer.innerHTML = ''; // Clear any existing items
-    let totalPrice = 0; // Initialize total price
-
-    // Loop through the cart items and display them
-    cart.forEach((item, index) => {
-        const cartItemDiv = document.createElement('div');
-        cartItemDiv.classList.add('cart-item');
-
-        cartItemDiv.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <div class="cart-item-details">
-                <h3>${item.name}</h3>
-                <p>Price: €${item.price}</p>
-                <p>Quantity: ${item.quantity}</p>
-            </div>
-            <div class="cart-item-price">Subtotal: €${(item.price * item.quantity).toFixed(2)}</div>
-            <button class="remove-btn" data-index="${index}">x</button>
-        `;
-
-        listContainer.appendChild(cartItemDiv); // Append the cart item to the container
-        totalPrice += item.price * item.quantity; // Add to total price
-    });
-
-    // Update the total price in the DOM
-    totalPriceElement.textContent = `Total: €${totalPrice.toFixed(2)}`;
-
-    // Add event listeners to the remove buttons
-    const removeButtons = document.querySelectorAll('.remove-btn');
-    removeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const itemIndex = e.target.getAttribute('data-index');
-            removeCartItem(itemIndex); // Call the remove function
-        });
-    });
-};
-
-// Function to remove an item from the cart
-const removeCartItem = (index) => {
+document.addEventListener('DOMContentLoaded', () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.splice(index, 1); // Remove the item at the given index
-    localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
-    renderCartItems(); // Re-render the cart
-};
-
-// Call the renderCartItems function on page load
-document.addEventListener('DOMContentLoaded', renderCartItems);
+    renderCartItems();
+});

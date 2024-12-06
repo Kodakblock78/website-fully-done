@@ -89,15 +89,12 @@
         }
     </style>
 </head>
-<section style="display: none;">
+<section>
     <div class="icon-cart shopping_cartBTN">
-      <!-- Replacing SVG with an Image -->
       <img src="shopping_cart.png" alt="Cart Icon" class="cart-icon" />
-      
-      <!-- Cart Count -->
       <span>0</span>
     </div>
-  </section>
+</section>
 <body>
   <nav>
     <div class="logo"><h1><a href="index.html">EZE's Shoes</a></h1></div>
@@ -114,31 +111,60 @@
     <!-- Cart Items List -->
     <div class="cart-items-container">
       <h1 class="cart-title">Your Shopping Cart</h1>
-      <div id="list1">
-          <!-- Cart items will appear dynamically -->
-      </div>
+      <div id="list1"></div>
       <div id="total-price" class="cart-total">Total: €0.00</div>
     </div>
+
     <!-- Payment Options -->
     <div class="payment-options">
       <h2>Payment Options</h2>
-      <button class="paypal-btn">Pay with PayPal</button>
-      <button class="credit-card-btn">Pay with mollie</button>
-      <button class="apple-pay-btn">Pay with Ideal</button>
-      <button class="paypal-btn">Pay with Crypto</button>
+      <div id="paypal-button-container"></div>
+      <!-- Additional payment methods can be added here -->
+      
     </div>
   </div>
-  <div class="cartTab" style="display: none;">
-    <h1>Shopping Cart</h1>
-    <div class="listCart">
-        
-    </div>
-    <div class="btn" style="display: none;">
-        <button class="close">CLOSE</button>
-        <button class="checkOut">Check Out</button>
-    </div>
-</div>
-
   <script src="popup1.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=ASg_KGGS3qqXCL_WJsgKJZ0gobV3ttDmaN5h9RNTf5sqNDrvo7C4xEqoLKhNI9ILhTl1rWJo0OMMfIuD"></script>
+  <script>
+    // PayPal Button Integration
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return fetch('/create-order', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function(res) {
+                return res.json();
+            }).then(function(orderData) {
+                return orderData.id; // Use the returned order ID
+            });
+        },
+        onApprove: function(data, actions) {
+            return fetch('/capture-order', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId: data.orderID })
+            }).then(function(res) {
+                return res.json();
+            }).then(function(orderData) {
+                alert('Transaction completed: ' + JSON.stringify(orderData));
+            });
+        }
+    }).render('#paypal-button-container');
+
+    // Mollie Button Placeholder
+    document.getElementById('mollie-btn').addEventListener('click', function() {
+        alert('Mollie integration coming soon!');
+    });
+
+    // iDeal Button Placeholder
+    document.getElementById('ideal-btn').addEventListener('click', function() {
+        alert('iDeal integration coming soon!');
+    });
+
+    // Crypto Button Placeholder
+    document.getElementById('crypto-btn').addEventListener('click', function() {
+        alert('Crypto integration coming soon!');
+    });
+  </script>
 </body>
 </html>
