@@ -3,9 +3,11 @@ let iconCart = document.querySelector('.icon-cart');
 let iconCartSpan = document.querySelector('.icon-cart span');
 let body = document.querySelector('body');
 let closeCart = document.querySelector('.close');
-let products = []; // Unused but kept for potential future usage
+let products = [];
+let checkoutButton = document.querySelector('.checkOut')
 const cartListHTML = document.querySelector('#cart-list');
 const totalPriceHTML = document.querySelector('#total-price');
+const pricetopay = document.querySelector(`.cart-total`)
 
 // Load cart from localStorage or initialize it
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -18,6 +20,36 @@ const showAddToCartMessage = () => {
     body.appendChild(message);
     setTimeout(() => message.remove(), 2000);
 };
+
+checkoutButton.addEventListener('click', () => {
+    // Calculate the total price from the cart
+    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // Store the total price in localStorage
+    localStorage.setItem('totalPrice', totalPrice);
+
+    // Redirect to the payment page
+    window.location.href = 'payment-page.html';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the total price from localStorage
+    const totalPrice = localStorage.getItem('totalPrice');
+
+    // Find the location to insert the total price
+    const totalPriceDiv = document.querySelector('.cart-total');
+
+    // If the total price exists and the target div is found, add the price
+    if (totalPrice && totalPriceDiv) {
+        const priceElement = document.createElement('div');
+        priceElement.classList.add('payment-total');
+        priceElement.textContent = `Total: €${parseFloat(totalPrice).toFixed(2)}`;
+        totalPriceDiv.insertAdjacentElement('afterend', priceElement);
+    }
+});
+
+
+
 
 // Toggle cart visibility
 iconCart.addEventListener('click', () => body.classList.toggle('showCart'));
@@ -172,9 +204,13 @@ const updateCart = () => {
     });
 };
 
+
+
+
+
 // PayPal Integration
 document.addEventListener('DOMContentLoaded', () => {
-    const paypalContainer = document.querySelector('#paypal-button-container');
+    const paypalContainer = document.querySelector(paypal1);
     if (paypalContainer) {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -198,18 +234,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('PayPal Checkout error', err);
                 alert('An error occurred during the transaction.');
             }
-        }).render('#paypal-button-container');
+        }).render(paypal1);
     }
 });
+
 // Redirect to payment page on checkout
-checkoutButton.addEventListener('click', () => {
-    window.location.href = 'payment-page.html';
-});
 
 
-// Initialize the cart UI on page load
 updateCart();
 document.addEventListener('DOMContentLoaded', () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     renderCartItems();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (checkoutButton) {
+        // Add a click event listener to the button
+        checkoutButton.addEventListener('click', () => {
+            // Redirect to the payment-page.html
+            window.location.href = 'payment-page.html';
+        });
+    }
+})
+
+
+
+// Initialize the cart UI on page load

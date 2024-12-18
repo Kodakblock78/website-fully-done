@@ -7,11 +7,10 @@
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="icon" type="image/x-icon" href="EZE_S-removebg-preview.png">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: rgb(255, 254, 207);
+    
+        body{
+            background-color: rgb(255, 196, 0);
+
         }
         .cart-page-container {
             display: flex;
@@ -23,8 +22,8 @@
             flex: 2;
             margin-right: 20px;
             padding: 20px;
-            background-color: white;
-            border: 1px solid #ddd;
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(255, 255, 255);
             border-radius: 8px;
         }
         .cart-items-list .cart-item {
@@ -32,7 +31,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #dddddd;
         }
         .cart-item img {
             margin-right: 20px;
@@ -60,12 +59,13 @@
         .payment-options {
             flex: 1;
             padding: 20px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
+            border-color: black;
+            border-color: bisque;
         }
         .payment-options h2 {
             margin-bottom: 20px;
+
         }
         .payment-options button {
             width: 100%;
@@ -87,9 +87,9 @@
             background-color: black;
             color: white;
         }
-    </style>
+    </style>\\
 </head>
-<section>
+<section style="display: none;">
     <div class="icon-cart shopping_cartBTN">
       <img src="shopping_cart.png" alt="Cart Icon" class="cart-icon" />
       <span>0</span>
@@ -112,21 +112,29 @@
     <div class="cart-items-container">
       <h1 class="cart-title">Your Shopping Cart</h1>
       <div id="list1"></div>
-      <div id="total-price" class="cart-total">Total: €0.00</div>
+      <div id="total-price" class="cart-total"></div>
     </div>
 
-    <!-- Payment Options -->
+    <!-- Payment Options --> 
     <div class="payment-options">
       <h2>Payment Options</h2>
       <div id="paypal-button-container"></div>
       <!-- Additional payment methods can be added here -->
-      
+      <div class="cartTab" style="display: none">
+        <h1>Shopping Cart</h1>
+        <div class="listCart" >
+            
+        </div>
+        <div class="btn">
+            <button class="close">CLOSE</button>
+            <button class="checkOut">Check Out</button>
+        </div>
+    </div>
     </div>
   </div>
   <script src="popup1.js"></script>
   <script src="https://www.paypal.com/sdk/js?client-id=ASg_KGGS3qqXCL_WJsgKJZ0gobV3ttDmaN5h9RNTf5sqNDrvo7C4xEqoLKhNI9ILhTl1rWJo0OMMfIuD"></script>
   <script>
-    // PayPal Button Integration
     paypal.Buttons({
         createOrder: function(data, actions) {
             return fetch('/create-order', {
@@ -135,7 +143,7 @@
             }).then(function(res) {
                 return res.json();
             }).then(function(orderData) {
-                return orderData.id; // Use the returned order ID
+                return orderData.id;
             });
         },
         onApprove: function(data, actions) {
@@ -151,6 +159,37 @@
         }
     }).render('#paypal-button-container');
 
+    // Function to transfer items from listCart to list1
+const transferItemsToList1 = () => {
+    // Get the `listCart` container
+    const listCart = document.querySelector('.listCart');
+    
+    // Check if `list1` exists; if not, create it
+    let list1 = document.getElementById('list1');
+    if (!list1) {
+        list1 = document.createElement('div');
+        list1.id = 'list1';
+        list1.classList.add('cart-items-list'); // Add a class for styling
+        const cartItemsContainer = document.querySelector('.cart-items-container');
+        cartItemsContainer.insertBefore(list1, cartItemsContainer.querySelector('#total-price'));
+    }
+    
+    // Transfer items from `listCart` to `list1`
+    list1.innerHTML = ''; // Clear existing items in `list1`
+    const items = listCart.querySelectorAll('.cart-item');
+    items.forEach(item => {
+        const clonedItem = item.cloneNode(true); // Clone each item to preserve the structure
+        list1.appendChild(clonedItem);
+    });
+
+    // Optionally, clear `listCart` after transferring items
+    listCart.innerHTML = '';
+};
+
+// Trigger the transfer when needed, for example, on document load
+document.addEventListener('DOMContentLoaded', () => {
+    transferItemsToList1();
+});
     // Mollie Button Placeholder
     document.getElementById('mollie-btn').addEventListener('click', function() {
         alert('Mollie integration coming soon!');

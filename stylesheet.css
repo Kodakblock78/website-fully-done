@@ -27,6 +27,12 @@ nav{
   color: rgb(255, 5, 5);
   background-color: #007bff00;
 }
+.cartTab{
+  z-index: 99999;
+  border-color: #000;
+  border-width: 10px;
+  
+}
 
 /* Style the modal (hidden by default) */
 
